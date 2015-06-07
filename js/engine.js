@@ -64,6 +64,7 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
+        game.init();
         reset();
         lastTime = Date.now();
         main();
@@ -79,6 +80,7 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
+        game.update();
         updateEntities(dt);
         // checkCollisions();
     }
