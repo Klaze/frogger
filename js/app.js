@@ -35,6 +35,10 @@ Game.prototype.update= function() {
     });
 };
 
+Game.prototype.render = function() {
+    ctx.fillText("Lives: "+player.lives, 80, 20);
+};
+
 Game.prototype.generateEnemy = function () {
     var numEnemy, i;
 
