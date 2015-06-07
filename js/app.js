@@ -14,8 +14,8 @@ var initialVariablesPlayer = {
 };
 
 var Game = function(initialVariables) {
-    this.level = initialVariables.STARTLEVEL;
-    this.speed = initialVariables.STARTSPEED;
+    this.level = initialVariablesGame.STARTLEVEL;
+    this.speed = initialVariablesGame.STARTSPEED;
     this.spawnRate = initialVariablesGame.STARTSPAWNRATE;
     this.speedIncrease = initialVariablesGame.SPEEDINCREASE;
     this.spawnIncrease = initialVariablesGame.SPAWNINCREASE;
@@ -24,8 +24,15 @@ var Game = function(initialVariables) {
 
 };
 
+Game.prototype.init = function() {
+
+};
+
 Game.prototype.update= function() {
     this.generateEnemy();
+    allEnemies = allEnemies.filter(function (enemy) {
+        return enemy.drawMe;
+    });
 };
 
 Game.prototype.generateEnemy = function () {
@@ -55,6 +62,7 @@ var Enemy = function(loc, spd) {
     this.locY = loc.y;
     this.center = {x: this.locX + 50.5, y: this.locY + 85.5}
     this.spd = game.baseSpd*spd;
+    this.drawMe = true;
 };
 
 // Update the enemy's position, required method for game
@@ -63,13 +71,21 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    
     this.move(dt);
+    this.isOnScreen();
+};
+
+Enemy.prototype.isOnScreen = function() {
+    if(this.locX > 505) {
+        this.drawMe = false;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.locX, this.locY);
+    if (this.drawMe === true) {
+        ctx.drawImage(Resources.get(this.sprite), this.locX, this.locY);
+    }
 };
 
 Enemy.prototype.move = function(dt) {
@@ -97,13 +113,13 @@ Player.prototype.render = function() {
 
 Player.prototype.handleInput =function (keyPress) {
     if (keyPress === 'left') {
-        this.locX -= 101;
+        this.locX -= (this.locX > 0) ? 101 : 0;
     } else if ( keyPress === 'up') {
-        this.locY -= 83;
+        this.locY -= (this.locY > 0) ? 83 : 0;
     } else if ( keyPress === 'right') {
-        this.locX += 101;
+        this.locX += (this.locX < 404) ? 101 : 0;
     } else if ( keyPress === 'down') {
-        this.locY += 83;
+        this.locY += (this.locY < 415) ? 83 : 0;
     }
 };
 

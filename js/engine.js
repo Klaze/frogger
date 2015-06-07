@@ -80,9 +80,13 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
-        game.update();
+        updateGame();
         updateEntities(dt);
         // checkCollisions();
+    }
+
+    function updateGame(dt) {
+        game.update();
     }
 
     /* This is called by the update function  and loops through all of the
