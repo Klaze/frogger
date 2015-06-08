@@ -27,6 +27,15 @@ var Game = function(initialVariables) {
 Game.prototype.init = function() {
 
 };
+// Looking good.  This code will of course return true if collided
+Game.prototype.checkCollisions = function() {
+    return (allEnemies.filter(function (enemy) {
+        return (player.locX + player.width > enemy.locX &&
+                player.locX < enemy.locX + enemy.width &&
+                player.locY < enemy.locY + enemy.height &&
+                player.locY + player.height > enemy.locY);
+    }).length !== 0);
+};
 
 Game.prototype.update= function() {
     this.generateEnemy();
@@ -64,9 +73,11 @@ var Enemy = function(loc, spd) {
     this.sprite = 'images/enemy-bug.png';
     this.locX = loc.x;
     this.locY = loc.y;
-    this.center = {x: this.locX + 50.5, y: this.locY + 85.5}
     this.spd = game.baseSpd*spd;
     this.drawMe = true;
+    this.width = 101;
+    this.height = 83;
+
 };
 
 // Update the enemy's position, required method for game
@@ -105,6 +116,8 @@ var Player = function (loc, lives) {
     this.locX = loc.x;
     this.locY = loc.y;
     this.sprite = 'images/char-boy.png';
+    this.width = 101;
+    this.height = 83;
 };
 
 Player.prototype.update = function (dt) {

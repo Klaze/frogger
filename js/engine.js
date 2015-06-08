@@ -83,7 +83,11 @@ var Engine = (function(global) {
     function update(dt) {
         updateGame();
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
+    }
+
+    function checkCollisions() {
+        game.checkCollisions();
     }
 
     function updateGame(dt) {
